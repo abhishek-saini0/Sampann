@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sampann Prime Membership Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .payment-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .payment-details {
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .terms-conditions {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .terms-conditions ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+
+        .pay-now-btn, .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin: 5px;
+        }
+
+        .pay-now-btn:hover, .back-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .back-btn {
+            background-color: #6c757d;
+        }
+
+        .back-btn:hover {
+            background-color: #5a6268;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h1>Sampann Prime Membership Payment</h1>
+        <div class="payment-details">
+            <p>Total Amount: $202.20</p>
+            <p>Membership: Sampann Prime</p>
+        </div>
+
+        <div class="terms-conditions">
+            <h2>Terms and Conditions</h2>
+            <p>Please read the following terms and conditions carefully before proceeding with the payment.</p>
+            <ul>
+                <li>All sales are final. No refunds.</li>
+                <li>Ensure that your card details are correct.</li>
+                <li>By clicking "Pay Now", you agree to the terms and conditions.</li>
+            </ul>
+        </div>
+
+        <form action="/payment" method="post">
+            <button class="pay-now-btn">Pay Now</button>
+        </form>
+
+        <form action="/profile" method="get">
+            <button class="back-btn" onclick="window.history.back();">Back</button>
+        </form>
+        
+    </div>
+</body>
+</html>

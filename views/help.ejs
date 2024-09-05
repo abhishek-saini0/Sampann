@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sampann</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://kit.fontawesome.com/aaeb8ebcdf.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="./images/logo.png" alt="Sampann Logo">
+            <h1>Sampann</h1>
+        </div>
+        <nav>
+            <a href="/sampann">Home</a>
+            <% 
+            
+            
+            if (decodedToken) { %>
+                <a href="/profile">Account</a>
+                <a href="/logout">Logout</a>
+            <% } else { %>
+                <a href="/signup">Register</a>
+                <a href="/login">Login</a>
+            <% } %> 
+            <a href="/help">Help</a>
+            <a href="/about">About</a>
+
+            <a href="https://wa.me/+919729138930" class="whatsaap"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="t.me/@abhi_saini_ambli" class="telegram"><i class="fa-brands fa-telegram"></i></a>
+        <a href="https://www.instagram.com/abhi_saini_ambli?igsh=MWh5MHpjNjdlNmpyMQ%3D%3D&utm_source=qr "
+            class="instagram">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="mailto:abhishekambli001@gmail.com" class="gmail"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=100057563321680&mibextid=LQQJ4d" class="facebook">
+            <i class="fa-brands fa-facebook"></i>
+        </a>
+        </nav>
+    </header>
+    <main>
+        <h2>Help & Support</h2>
+        <p>If you need assistance, please contact us at <a href="mailto:support@sampann.com">support@sampann.com</a> or call us at 123-456-7890.</p>
+        <h3>Frequently Asked Questions</h3>
+        <ul>
+            <li><strong>How do I create an account?</strong> - Visit the <a href="/register">registration page</a> and fill out the form.</li>
+            <li><strong>How do I reset my password?</strong> - Click on "Forgot Password" on the <a href="/login">login page</a> to reset it.</li>
+        </ul>
+    </main>
+    <footer style="margin-top: 347px;">
+        <p>&copy; 2024 Sampann.com</p>
+    </footer>
+</body>
+</html>

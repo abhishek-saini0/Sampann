@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://kit.fontawesome.com/aaeb8ebcdf.js" crossorigin="anonymous"></script>
+    <style>
+        .couple-photos img {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .couple-photos img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="./images/logo.png" alt="Sampann Logo">
+            <h1>Sampann</h1>
+        </div>
+        <nav>
+            <a href="/sampann">Home</a>
+            <% if (decodedToken) { %>
+                <a href="/profile">Account</a>
+                <a href="/logout">Logout</a>
+            <% } else { %>
+                <a href="/signup">Register</a>
+                <a href="/login">Login</a>
+            <% } %> 
+            <a href="/help">Help</a>
+            <a href="/about">About</a>
+            <a href="https://wa.me/+919729138930" class="whatsaap"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="t.me/@abhi_saini_ambli" class="telegram"><i class="fa-brands fa-telegram"></i></a>
+            <a href="https://www.instagram.com/abhi_saini_ambli?igsh=MWh5MHpjNjdlNmpyMQ%3D%3D&utm_source=qr" class="instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="mailto:abhishekambli001@gmail.com" class="gmail"><i class="fa-solid fa-envelope"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=100057563321680&mibextid=LQQJ4d" class="facebook">
+                <i class="fa-brands fa-facebook"></i>
+            </a>
+        </nav>
+    </header>
+    <main>
+        <section class="hero">
+            <h2 style="font-size: 35px; color: red; text-decoration: underline;">Welcome to Sampann</h2>
+            <p>Your journey to finding the perfect match starts here.</p>
+            <a href="/signup" class="button">Get Started</a>
+        </section>
+        <section style="text-align: center;">
+            <img src="./images/—Pngtree—golden shree ganeshay namah hindi_9166433.png" alt="lord ganesh" width="350px">
+        </section>
+        <section class="couples">
+            <h2>Happy Couples</h2><br>
+            <div class="couple-photos">
+                <img src="./images/wedding1.jpg" alt="Couple 1">
+                <img src="./images/wedding14.jpg" alt="Couple 2">
+                <img src="./images/wedding3.jpg" alt="Couple 3">
+                <img src="./images/wedding15.jpg" alt="Couple 4">
+                <img src="./images/wedding5.jpg" alt="Couple 5">
+                <img src="./images/wedding6.jpg" alt="Couple 6">
+                <img src="./images/wedding7.jpg" alt="Couple 7">
+                <img src="./images/wedding8.jpg" alt="Couple 8">
+                <img src="./images/wedding9.jpeg" alt="Couple 9">
+                <img src="./images/wedding10.png" alt="Couple 10">
+                <img src="./images/wedding11.jpg" alt="Couple 11">
+                <img src="./images/wedding13.jpg" alt="Couple 12">
+                <img src="./images/wedding16.jpg" alt="Couple 13">
+                <img src="./images/wedding17.jpg" alt="Couple 14">
+                <img src="./images/wedding18.jpg" alt="Couple 15">
+                <img src="./images/wedding19.jpeg" alt="Couple 16">
+                <img src="./images/wedding20.jpg" alt="Couple 17">
+            </div>
+        </section>
+    </main>
+    <article class="article">
+        <div class="articlebox1">
+            <img src="images/logo.png" alt="logo" width="200px">
+        </div>
+        <div class="articlebox2">
+            <p class="trusted">Trusted By Millions</p>
+            <p class="line1">Sampann.com, one of India's best known brands and the world's largest matrimonial service
+                was founded with a simple objective - to help people find happiness. The company pioneered online
+                matrimonials in 2024 and continues to lead the exciting matrimony category after more than a decade. By
+                redefining the way Indian brides and grooms meet for marriage, Sampann.com has created a world-renowned
+                service that has touched over 35 million.</p>
+            <hr>
+            <div class="innerarticlebox">
+                <i class="fa-solid fa-user-group"></i>
+                <p class="bmatch">Best Matches</p>
+            </div>
+            <div>
+                <i class="fa-solid fa-user-check"></i>
+                <p class="bmatch">Trustworthy</p>
+            </div>
+            <div>
+                <i class="fa-solid fa-lock"></i>
+                <p class="bmatch">Privacy</p>
+            </div>
+            <hr><br>
+            <p class="nation">India</p>
+            <p class="nation">USA</p>
+            <p class="nation">UK</p>
+            <p class="nation">Canada</p>
+            <p class="nation">Australia</p>
+        </div>
+    </article>
+    <footer>
+        <p>&copy; 2024 Sampann.com</p>
+    </footer>
+</body>
+</html>

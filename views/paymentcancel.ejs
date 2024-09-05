@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Cancelled - Sampann</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://kit.fontawesome.com/aaeb8ebcdf.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8d7da;
+            margin: 0;
+            padding: 0;
+        }
+
+        .cancel-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #f5c6cb;
+        }
+
+        .cancel-container img {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #dc3545;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .payment-details {
+            text-align: left;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+
+        .payment-details p {
+            margin: 10px 0;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background-color: #c82333;
+        }
+
+        .secondary-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .secondary-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="cancel-container">
+        <h1>Payment Cancelled</h1>
+        <p>We're sorry, <%= user.name %>. Your payment was not completed.</p>
+        
+        <div class="payment-details">
+            <p><strong>Reason:</strong> Payment was cancelled or not successful.</p>
+     
+        </div>
+
+        <a href="/retry-payment" class="button">Retry Payment</a>
+        <a href="/" class="secondary-button">Go to Homepage</a>
+    </div>
+</body>
+</html>

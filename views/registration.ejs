@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sampann</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://kit.fontawesome.com/aaeb8ebcdf.js" crossorigin="anonymous"></script>
+    <style>
+        .error {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="./images/logo.png" alt="Sampann Logo">
+            <h1>Sampann</h1>
+        </div>
+        <nav>
+            <a href="/sampann">Home</a>
+            <% 
+            
+            
+            if (decodedToken) { %>
+                <a href="/profile">Account</a>
+                <a href="/logout">Logout</a>
+            <% } else { %>
+                <a href="/signup">Register</a>
+                <a href="/login">Login</a>
+            <% } %> 
+            <a href="/help">Help</a>
+            <a href="/about">About</a>
+
+            <a href="https://wa.me/+919729138930" class="whatsaap"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="t.me/@abhi_saini_ambli" class="telegram"><i class="fa-brands fa-telegram"></i></a>
+        <a href="https://www.instagram.com/abhi_saini_ambli?igsh=MWh5MHpjNjdlNmpyMQ%3D%3D&utm_source=qr "
+            class="instagram">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="mailto:abhishekambli001@gmail.com" class="gmail"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=100057563321680&mibextid=LQQJ4d" class="facebook">
+            <i class="fa-brands fa-facebook"></i>
+        </a>
+        </nav>
+    </header>
+    <main>
+        <form action="" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <h2>Create an Account</h2>
+
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required oninput="validateFirstName()">
+            <div id="firstNameError" class="error"></div>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required oninput="validateLastName()">
+            <div id="lastNameError" class="error"></div>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required oninput="validateEmail()">
+            <div id="emailError" class="error"></div>
+
+            <label for="mobileNumber">Phone:</label>
+            <input type="tel" id="mobileNumber" name="mobileNumber" required oninput="validatePhone()">
+            <div id="phoneError" class="error"></div>
+
+            <label for="religion">Religion:</label>
+            <input type="text" id="religion" name="religion" required oninput="validateReligion()">
+            <div id="religionError" class="error"></div>
+
+            <label for="dateOfBirth">Date of Birth:</label>
+            <input type="date" id="dateOfBirth" name="dateOfBirth" required onchange="validateDateOfBirth()">
+            <div id="dobError" class="error"></div>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required onchange="validateGender()">
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <div id="genderError" class="error"></div>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required oninput="validatePassword()">
+            <div id="passwordError" class="error"></div>
+
+            <label for="file">Profile Photo:</label>
+            <input type="file" id="file" name="file" onchange="validateFile()">
+            <div id="fileError" class="error"></div>
+
+            <button type="submit">Register</button>
+        </form>
+        <% if (message.length > 0) { %>
+            <p style="color: red; text-align: center;"><%= message %></p>
+        <% } %>
+    </main>
+    <footer>
+        <p>&copy; 2024 Sampann.com</p>
+    </footer>
+    <script>
+        function validateFirstName() {
+            var firstName = document.getElementById("firstName").value;
+            var errorDiv = document.getElementById("firstNameError");
+            if (firstName.trim() === "") {
+                errorDiv.textContent = "First name cannot be empty.";
+            } else {
+                errorDiv.textContent = "";
+            }
+        }
+
+        function validateLastName() {
+            var lastName = document.getElementById("lastName").value;
+            var errorDiv = document.getElementById("lastNameError");
+            if (lastName.trim() === "") {
+                errorDiv.textContent = "Last name cannot be empty.";
+            } else {
+                errorDiv.textContent = "";
+            }
+        }
+
+        function validateEmail() {
+            var email = document.getElementById("email").value;
+            var errorDiv = document.getElementById("emailError");
+            var emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            if (!emailPattern.test(email)) {
+                errorDiv.textContent = "Please enter a valid email address.";
+            } else {
+                errorDiv.textContent = "";
+            }
+        }
+
+        function validatePhone() {
+            var mobileNumber = document.getElementById("mobileNumber").value;
+            var errorDiv = document.getElementById("phoneError");
+            var phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(mobileNumber)) {
+                errorDiv.textContent = "Phone number must be 10 digits long.";
+            } else {
+                errorDiv.textContent = "";
+            }
+        }
+
+        function validateReligion() {
+            var religion = document.getElementById("religion").value;
+            var errorDiv = document.getElementById("religionError");
+            if (religion.trim() === "") {
+                errorDiv.textContent = "Religion cannot be empty.";
+            } else {
+                errorDiv.textContent = "";
+            }
+        }
+
+        function validateDateOfBirth() {
+            var dateOfBirth = document.getElementById("dateOfBirth").value;
+            var errorDiv = document.getElementById("dobError");
+            if (dateOfBirth === "") {
+                errorDiv.textContent = "Please select your date of birth.";
+            } else {
+                errorDiv.textContent = "";
+            }
+        }
+
+        function validateGender() {
+            var gender = document.getElementById("gender").value;
+            var errorDiv = document.getElementById("genderError");
+            if (gender === "") {
+                errorDiv.textContent = "Please select your gender.";
+            } else {
+                errorDiv.textContent = "";
+            }
+        }
+
+        function validatePassword() {
+            var password = document.getElementById("password").value;
+            var errorDiv = document.getElementById("passwordError");
+            if (password.length < 8) {
+                errorDiv.textContent = "Password must be at least 8 characters long.";
+            } else {
+                errorDiv.textContent = "";
+            }
+        }
+
+        function validateFile() {
+            var fileInput = document.getElementById("file").value;
+            var errorDiv = document.getElementById("fileError");
+            if (fileInput !== "") {
+                var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+                if (!allowedExtensions.exec(fileInput)) {
+                    errorDiv.textContent = "Please upload a valid image file (JPG, JPEG, or PNG).";
+                } else {
+                    errorDiv.textContent = "";
+                }
+            } else {
+                errorDiv.textContent = "";
+            }
+        }
+
+        function validateForm() {
+            validateFirstName();
+            validateLastName();
+            validateEmail();
+            validatePhone();
+            validateReligion();
+            validateDateOfBirth();
+            validateGender();
+            validatePassword();
+            validateFile();
+
+            // Prevent form submission if there are any errors
+            var errors = document.querySelectorAll('.error');
+            for (var i = 0; i < errors.length; i++) {
+                if (errors[i].textContent !== "") {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    </script>
+</body>
+</html>

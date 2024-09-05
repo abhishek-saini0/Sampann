@@ -1,0 +1,55 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+*.env
+.env*
+# Build output
+/dist
+/build
+
+# Dependency directories
+bower_components/
+
+# IDE files
+.vscode/
+.idea/
+
+# Other files to ignore
+*.tmp
+*.swp
+*.swo
+
+# For web projects
+*.css.map
+*.js.map
+*.min.js
+
+# If using Python
+*.pyc
+__pycache__/
+*.pyo
+
+# If using Java
+*.class
+*.jar
+*.war
+*.ear
+
+# If using Ruby
+*.gem
+*.rbc
+capfile
+Gemfile.lock

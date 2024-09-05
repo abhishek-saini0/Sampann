@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sampann</title>
+    <base href="/">
+    <link rel="stylesheet" href="/styles.css">
+
+    <style>
+        /* General Reset */
+
+        #profile {
+            padding: 2em 1em;
+            background: #f9f9f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1em;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2em;
+        }
+
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #ddd;
+            margin-bottom: 1em;
+        }
+
+        .profile-header h2 {
+            font-size: 2em;
+            color: #333;
+        }
+
+        .tagline {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 1em;
+        }
+
+        .profile-details h3 {
+            margin: 1.5em 0 0.5em;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .profile-details p {
+            margin-bottom: 1em;
+        }
+
+        .profile-details ul {
+            list-style: none;
+            margin-bottom: 1em;
+        }
+
+        .profile-details ul li {
+            margin-bottom: 0.5em;
+        }
+
+        .profile-details strong {
+            color: #555;
+        }
+
+        #suggestions {
+            padding: 2em 1em;
+            background: #fff;
+        }
+
+        #suggestions h2 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 1.5em;
+        }
+
+        .suggestions-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1em;
+        }
+
+        .suggestion {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 300px;
+            background: #f9f9f9;
+        }
+
+        .suggestion-photo {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-right: 1px solid #ddd;
+        }
+
+        .suggestion-info {
+            padding: 1em;
+        }
+
+        .suggestion-info h4 {
+            margin-bottom: 0.5em;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .suggestion-info p {
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/logo.png" alt="Sampann Logo">
+            <h1>Sampann</h1>
+        </div>
+        <nav>
+            <a href="/sampann">Home</a>
+            <% if (decodedToken) { %>
+                <a href="/profile">Account</a>
+                <a href="/logout">Logout</a>
+            <% } else { %>
+                <a href="/signup">Register</a>
+                <a href="/login">Login</a>
+            <% } %>
+            <a href="/help">Help</a>
+            <a href="/about">About</a>
+        </nav>
+    </header>
+    <main>
+        <section id="profile">
+            <div class="container">
+                <div class="profile-header">
+                    <img src='uploads/<%= user2.profilePhoto %>' alt="User Photo" class="profile-photo">
+                    <h2><%= user2.firstName %> <%= user2.lastName %></h2>
+                    <p class="tagline"><%= bio.tagline %></p>
+                </div>
+                <div class="profile-details">
+                    <h3>About Me</h3>
+                    <p><%= bio.aboutMe %></p>
+
+                    <h3>Basic Information</h3>
+                    <ul>
+                        <li><strong>Date of birth:</strong> <%= user2.dateOfBirth %></li>
+                        <li><strong>Religion:</strong> <%= user2.religion %></li>
+                        <li><strong>Email:</strong> <%= user2.email %></li>
+                        <li><strong>Mobile No.:</strong> <%= user2.mobileNumber %></li>
+
+                        <li><strong>Location:</strong> <%= addresses.city %> <%= addresses.state %> (<%= addresses.country %>)</li>
+                    </ul>
+
+                    <h3>Education & Career</h3>
+                    <ul>
+                        <li><strong>Education:</strong> <%= education.education %></li>
+                        <li><strong>Occupation:</strong> <%= education.occupation %></li>
+                    </ul>
+
+                    <h3>Interests</h3>
+                    <p><%= interests.interest1 %><br><%= interests.interest2 %><br><%= interests.interest3 %></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="suggestions">
+            <div class="container">
+                <h2>Suggested Matches</h2>
+
+                <% suggestions.forEach(person => { 
+                    if (person.email !== user2.email && person.email !== user.email && person.gender !== user.gender) {
+                %>
+                <a style="text-decoration: none;" href="/match/<%= person.id %>">
+                    <div class="suggestions-list">
+                        <div class="suggestion">
+                            <img src='uploads/<%= person.profilePhoto %>' alt="Suggestion 1" class="suggestion-photo">
+                            <div class="suggestion-info">
+                                <h4><%= person.firstName %> <%= person.lastName %></h4>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <% }}); %>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Sampann.com</p>
+    </footer>
+</body>
+
+</html>

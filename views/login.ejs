@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sampann</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://kit.fontawesome.com/aaeb8ebcdf.js" crossorigin="anonymous"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="./images/logo.png" alt="Sampann Logo">
+            <h1>Sampann</h1>
+        </div>
+        <nav>
+            <a href="/sampann">Home</a>
+            <% 
+            
+            
+            if (decodedToken) { %>
+                <a href="/profile">Account</a>
+                <a href="/logout">Logout</a>
+            <% } else { %>
+                <a href="/signup">Register</a>
+                <a href="/login">Login</a>
+            <% } %> 
+            <a href="/help">Help</a>
+            <a href="/about">About</a>
+
+            <a href="https://wa.me/+919729138930" class="whatsaap"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="t.me/@abhi_saini_ambli" class="telegram"><i class="fa-brands fa-telegram"></i></a>
+        <a href="https://www.instagram.com/abhi_saini_ambli?igsh=MWh5MHpjNjdlNmpyMQ%3D%3D&utm_source=qr "
+            class="instagram">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="mailto:abhishekambli001@gmail.com" class="gmail"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=100057563321680&mibextid=LQQJ4d" class="facebook">
+            <i class="fa-brands fa-facebook"></i>
+        </a>
+        </nav>
+    </header>
+    <main>
+        <center> <img src="./images/logo.png" alt="logo" width="200px"></center>
+        <form action="/login" method="POST">
+            <h2>Login</h2>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <center><div style="text-align: center; align-items: center;" class="g-recaptcha" data-sitekey="<%= siteKey %>"></div></center>
+            
+            <button type="submit">Login</button>
+        </form>
+        <% if (message.length > 0) { %>
+            <p style="color: red; text-align: center;"><%= message %></p>
+        <% } %>
+    </main>
+    <footer >
+        <p>&copy; 2024 Sampann.com</p>
+    </footer>
+</body>
+</html>
