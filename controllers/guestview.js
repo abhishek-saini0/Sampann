@@ -21,7 +21,7 @@ class guestview {
                 res.render("homepage", { decodedToken });
             }
             else {
-                const decodedToken = jwt.verify(token, config.jwt.secret);
+                const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
                 res.render("homepage", { decodedToken });
             }
         } catch (error) {
@@ -38,7 +38,7 @@ class guestview {
                 res.render("about", { decodedToken });
             }
             else {
-                const decodedToken = jwt.verify(token, config.jwt.secret);
+                const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
                 res.render("about", { decodedToken });
             }
         } catch (error) {
@@ -55,7 +55,7 @@ class guestview {
                 res.render("help", { decodedToken });
             }
             else {
-                const decodedToken = jwt.verify(token, config.jwt.secret);
+                const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
                 res.render("help", { decodedToken });
             }
         } catch (error) {
@@ -73,7 +73,7 @@ class guestview {
                 return res.render('registration', { message: req.flash('error'), decodedToken });
             }
             else {
-                const decodedToken = jwt.verify(token, config.jwt.secret);
+                const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
                 return res.render("registration", { decodedToken });
             }
 
@@ -103,7 +103,7 @@ class guestview {
                 return res.render("logout", { decodedToken });
             }
             else {
-                const decodedToken = jwt.verify(token, config.jwt.secret);
+                const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
                 return res.render("logout", { decodedToken });
             }
         } catch (error) {
@@ -115,13 +115,13 @@ class guestview {
     static async showLoginForm(req, res) {
         try {
             const token = req.session.token;
-            const SITE_KEY = '6Lc8SzEqAAAAAECz8Y98xrfNJdTt6yQxJ4znUKNf'
+            const SITE_KEY = 'process.env.CAPTCHA_SITE_KEY'
             if (!token) {
                 const decodedToken = false;
                 return res.render('login', { message: req.flash('error'), decodedToken, siteKey: SITE_KEY });
             }
             else {
-                const decodedToken = jwt.verify(token, config.jwt.secret);
+                const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
                 return res.render("login", { decodedToken });
             }
         } catch (error) {
@@ -137,7 +137,7 @@ class guestview {
             if (!token) {
                 return res.status(401).json({ message: 'No token provided' });
             }
-            const decodedToken = jwt.verify(token, config.jwt.secret);
+            const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
             const id = decodedToken.id;
             const user = await User.findOne({
                 attributes: ['firstName', 'lastName', 'dateOfBirth', 'email', 'mobileNumber', 'gender', 'profilePhoto', 'religion', 'isVerified'],
@@ -186,7 +186,7 @@ class guestview {
             if (!token) {
                 return res.status(401).json({ message: 'No token provided' });
             }
-            const decodedToken = jwt.verify(token, config.jwt.secret);
+            const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
             const id = decodedToken.id;
             const user = await User.findOne({
                 where: { id: id }
@@ -229,7 +229,7 @@ class guestview {
             if (!token) {
                 return res.status(401).json({ message: 'No token provided' });
             }
-            const decodedToken = jwt.verify(token, config.jwt.secret);
+            const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
             const id = decodedToken.id;
             const user = await User.findOne({
                 attributes: ['firstName', 'lastName', 'dateOfBirth', 'email', 'mobileNumber', 'gender', 'profilePhoto', 'religion'],

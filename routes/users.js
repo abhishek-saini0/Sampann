@@ -42,7 +42,7 @@ router.use((req, res, next) => {
         if (!token) {
             return res.redirect('/login'); // Return to prevent further execution
         }
-        jwt.verify(token, config.jwt.secret);
+        jwt.verify(token, process.env.JWT_SECRET_KEY);
         next();
     } catch (error) {
         console.error('Token verification error:', error);

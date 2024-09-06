@@ -13,14 +13,14 @@ const express = require('express');
 const flash = require('express-flash');
 const axios = require('axios');
 const app = express();
-const stripe = require('stripe')('sk_test_51PrC84Rpo9MfeTbXLz2sYNuH8zt1KM7SVE9UyPYTKBEoAnyT3MTukKyoQ6VCHMveykkWfWqvJYuMgqlCXbl0B3Uz00VXewiOGl');
+const stripe = require('stripe')('process.env.STRIPE_SECRET_KEY');
 app.use(flash());
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: "abhishek331saini@gmail.com",
-        pass: "xyxc stdv zkvz pphy",
+        pass: "process.env.GMAIL_KEY",
     },
 });
 
@@ -100,7 +100,7 @@ class UserController {
                     id: user.id,
                     email: user.email,
                 };
-                const token = jwt.sign(tokenPayload, config.jwt.secret, { expiresIn: '10h' });
+                const token = jwt.sign(tokenPayload, process.env.JWT_SECRET_KEY, { expiresIn: '10h' });
                 req.session.token = token;
                 res.redirect('/profile');
 
@@ -131,7 +131,7 @@ class UserController {
                 req.flash('error', 'Please complete the CAPTCHA.');
                 return res.redirect('/login');
             }
-            const secret_key = '6Lc8SzEqAAAAALzsUmXnzkmVmV6mB302Uyo7Yoif';
+            const secret_key = 'process.env.CAPTCHA_SECTET_KEY';
             const captchaResponse = await axios.post(`https://www.google.com/recaptcha/api/siteverify`, null, {
                 params: {
                     secret: secret_key,
@@ -149,7 +149,7 @@ class UserController {
                     id: user.id,
                     email: user.email,
                 };
-                const token = jwt.sign(tokenPayload, config.jwt.secret, { expiresIn: '10h' });
+                const token = jwt.sign(tokenPayload, process.env.JWT_SECRET_KEY, { expiresIn: '10h' });
                 req.session.token = token;
                 res.redirect('/profile');
             } else {
@@ -171,7 +171,7 @@ class UserController {
             if (!token) {
                 return res.status(401).json({ message: 'No token provided' });
             }
-            const decodedToken = jwt.verify(token, config.jwt.secret);
+            const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
             const id = decodedToken.id;
             const bio = await Bio.findOne({
                 where: { user_id: id }
@@ -289,8 +289,8 @@ class UserController {
                     quantity: 1,
                 }],
                 mode: 'payment',
-                success_url: 'http://localhost:8080/success',
-                cancel_url: 'http://localhost:8080/cancel',
+                success_url: 'process.env.BASE_URL/success',
+                cancel_url: 'process.env.BASE_URL/cancel',
             });
             res.redirect(session.url);
         } catch (error) {
@@ -301,7 +301,7 @@ class UserController {
 
     static async success(req, res) {
         const token = req.session.token;
-        const decodedToken = jwt.verify(token, config.jwt.secret);
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const id = decodedToken.id;
 
         await User.update(
@@ -319,7 +319,7 @@ class UserController {
 
     static async cancel(req, res) {
         const token = req.session.token;
-        const decodedToken = jwt.verify(token, config.jwt.secret);
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const id = decodedToken.id;
 
         const user = await User.findOne({

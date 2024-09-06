@@ -17,7 +17,7 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.use(session({
-  secret: 'Zampa Singh',
+  secret: 'process.env.SESSION_KEY',
   resave: false,
   saveUninitialized: false,
   // cookie: { maxAge: 600000 } // Session expires after 10 minutes

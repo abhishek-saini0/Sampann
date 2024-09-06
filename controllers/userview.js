@@ -18,7 +18,7 @@ class userview {
             if (!token) {
                 return res.status(401).json({ message: 'No token provided' });
             }
-            const decodedToken = jwt.verify(token, config.jwt.secret);
+            const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
             const id = decodedToken.id;
             const user = await User.findOne({
                 where: { id: id }
@@ -45,7 +45,7 @@ class userview {
             if (!token) {
                 return res.status(401).json({ message: 'No token provided' });
             }
-            const decodedToken = jwt.verify(token, config.jwt.secret);
+            const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
             console.log('Decoded Token:', decodedToken);
             const id = decodedToken.id;
             console.log('User ID:', id);
