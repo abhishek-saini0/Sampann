@@ -115,7 +115,7 @@ class guestview {
     static async showLoginForm(req, res) {
         try {
             const token = req.session.token;
-            const SITE_KEY = 'process.env.CAPTCHA_SITE_KEY'
+            const SITE_KEY = '6Lc8SzEqAAAAAECz8Y98xrfNJdTt6yQxJ4znUKNf'
             if (!token) {
                 const decodedToken = false;
                 return res.render('login', { message: req.flash('error'), decodedToken, siteKey: SITE_KEY });
