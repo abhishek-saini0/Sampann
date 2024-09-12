@@ -16,14 +16,8 @@ class guestview {
     static async homepage(req, res) {
         try {
             const token = req.session.token;
-            if (!token) {
-                const decodedToken = false;
-                res.render("homepage", { decodedToken });
-            }
-            else {
-                const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-                res.render("homepage", { decodedToken });
-            }
+            const decodedToken = token ? jwt.verify(token, process.env.JWT_SECRET_KEY) : false;
+            res.render("homepage", { decodedToken });
         } catch (error) {
             console.error('Error rendering homepage:', error);
             res.status(500).json({ message: 'Internal server error' });
@@ -33,14 +27,8 @@ class guestview {
     static async about(req, res) {
         try {
             const token = req.session.token;
-            if (!token) {
-                const decodedToken = false;
-                res.render("about", { decodedToken });
-            }
-            else {
-                const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-                res.render("about", { decodedToken });
-            }
+            const decodedToken = token ? jwt.verify(token, process.env.JWT_SECRET_KEY) : false;
+            res.render("about", { decodedToken });
         } catch (error) {
             console.error('Error rendering about page:', error);
             res.status(500).json({ message: 'Internal server error' });
@@ -50,14 +38,8 @@ class guestview {
     static async help(req, res) {
         try {
             const token = req.session.token;
-            if (!token) {
-                const decodedToken = false;
-                res.render("help", { decodedToken });
-            }
-            else {
-                const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-                res.render("help", { decodedToken });
-            }
+            const decodedToken = token ? jwt.verify(token, process.env.JWT_SECRET_KEY) : false;
+            res.render("help", { decodedToken });
         } catch (error) {
             console.error('Error rendering help page:', error);
             res.status(500).json({ message: 'Internal server error' });
@@ -66,17 +48,9 @@ class guestview {
 
     static async showSignup(req, res) {
         try {
-
             const token = req.session.token;
-            if (!token) {
-                const decodedToken = false;
-                return res.render('registration', { message: req.flash('error'), decodedToken });
-            }
-            else {
-                const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-                return res.render("registration", { decodedToken });
-            }
-
+            const decodedToken = token ? jwt.verify(token, process.env.JWT_SECRET_KEY) : false;
+            res.render('registration', { message: req.flash('error'), decodedToken });
         } catch (error) {
             console.error('Error rendering signup page:', error);
             res.status(500).json({ message: 'Internal server error' });
@@ -85,27 +59,18 @@ class guestview {
 
     static async showOtpForm(req, res) {
         try {
-            return res.render('otpreg', { message: req.flash('error') });
+            res.render('otpreg', { message: req.flash('error') });
         } catch (error) {
             console.error('Error rendering OTP form:', error);
-            res.status(500).json({
-                message: 'Internal server error'
-            });
+            res.status(500).json({ message: 'Internal server error' });
         }
     }
 
     static async logout(req, res) {
         try {
             const token = req.session.token;
-            console.log(token);
-            if (!token) {
-                const decodedToken = false;
-                return res.render("logout", { decodedToken });
-            }
-            else {
-                const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-                return res.render("logout", { decodedToken });
-            }
+            const decodedToken = token ? jwt.verify(token, process.env.JWT_SECRET_KEY) : false;
+            res.render("logout", { decodedToken });
         } catch (error) {
             console.error('Error rendering logout page:', error);
             res.status(500).json({ message: 'Internal server error' });
@@ -115,15 +80,9 @@ class guestview {
     static async showLoginForm(req, res) {
         try {
             const token = req.session.token;
-            const SITE_KEY = '6Lc8SzEqAAAAAECz8Y98xrfNJdTt6yQxJ4znUKNf'
-            if (!token) {
-                const decodedToken = false;
-                return res.render('login', { message: req.flash('error'), decodedToken, siteKey: SITE_KEY });
-            }
-            else {
-                const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-                return res.render("login", { decodedToken });
-            }
+            const SITE_KEY = '6Lc8SzEqAAAAAECz8Y98xrfNJdTt6yQxJ4znUKNf';
+            const decodedToken = token ? jwt.verify(token, process.env.JWT_SECRET_KEY) : false;
+            res.render('login', { message: req.flash('error'), decodedToken, siteKey: SITE_KEY });
         } catch (error) {
             console.error('Error rendering login page:', error);
             res.status(500).json({ message: 'Internal server error' });
@@ -133,32 +92,24 @@ class guestview {
     static async profile(req, res) {
         try {
             const token = req.session.token;
-
             if (!token) {
                 return res.status(401).json({ message: 'No token provided' });
             }
+
             const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
             const id = decodedToken.id;
-            const user = await User.findOne({
-                attributes: ['firstName', 'lastName', 'dateOfBirth', 'email', 'mobileNumber', 'gender', 'profilePhoto', 'religion', 'isVerified'],
-                where: { id: id }
-            });
+
+            const user = await User.findById(id).select('firstName lastName dateOfBirth email mobileNumber gender profilePhoto religion isVerified');
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
-            const bio = await Bio.findOne({
-                where: { user_id: id }
-            });
-            const addresses = await Addresses.findOne({
-                where: { user_id: id }
-            });
-            const interests = await Interests.findOne({
-                where: { user_id: id }
-            });
-            const education = await Education.findOne({
-                where: { user_id: id }
-            });
-            const suggestions = await User.findAll();
+
+            const bio = await Bio.findOne({ user_id: id });
+            const addresses = await Addresses.findOne({ user_id: id });
+            const interests = await Interests.findOne({ user_id: id });
+            const education = await Education.findOne({ user_id: id });
+            const suggestions = await User.find();
+
             res.render('profile', {
                 suggestions: suggestions || [],
                 user: user || [],
@@ -168,42 +119,29 @@ class guestview {
                 education: education || [],
                 bio: bio || []
             });
-
         } catch (error) {
             console.error('Error fetching profile:', error);
-            if (error.name === 'JsonWebTokenError') {
-                return res.status(401).json({ message: 'Invalid token' });
-            } else {
-                return res.status(500).json({ message: 'Internal server error' });
-            }
+            res.status(error.name === 'JsonWebTokenError' ? 401 : 500).json({ message: 'Internal server error' });
         }
     }
 
     static async editprofile(req, res) {
         try {
             const token = req.session.token;
-            console.log(token);
             if (!token) {
                 return res.status(401).json({ message: 'No token provided' });
             }
+
             const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
             const id = decodedToken.id;
-            const user = await User.findOne({
-                where: { id: id }
-            });
-            const bio = await Bio.findOne({
-                where: { user_id: id }
-            });
-            const addresses = await Addresses.findOne({
-                where: { user_id: id }
-            });
-            const interests = await Interests.findOne({
-                where: { user_id: id }
-            });
-            const education = await Education.findOne({
-                where: { user_id: id }
-            });
-            const suggestions = await User.findAll();
+
+            const user = await User.findById(id);
+            const bio = await Bio.findOne({ user_id: id });
+            const addresses = await Addresses.findOne({ user_id: id });
+            const interests = await Interests.findOne({ user_id: id });
+            const education = await Education.findOne({ user_id: id });
+            const suggestions = await User.find();
+
             res.render('editprofile', {
                 suggestions: suggestions || [],
                 user: user || [],
@@ -215,11 +153,7 @@ class guestview {
             });
         } catch (error) {
             console.error('Error fetching editprofile:', error);
-            if (error.name === 'JsonWebTokenError') {
-                return res.status(401).json({ message: 'Invalid token' });
-            } else {
-                return res.status(500).json({ message: 'Internal server hatt error' });
-            }
+            res.status(error.name === 'JsonWebTokenError' ? 401 : 500).json({ message: 'Internal server error' });
         }
     }
 
@@ -229,37 +163,23 @@ class guestview {
             if (!token) {
                 return res.status(401).json({ message: 'No token provided' });
             }
+
             const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
             const id = decodedToken.id;
-            const user = await User.findOne({
-                attributes: ['firstName', 'lastName', 'dateOfBirth', 'email', 'mobileNumber', 'gender', 'profilePhoto', 'religion'],
-                where: { id: id }
-            });
-            if (!user) {
-                return res.status(404).json({ message: 'User not found' });
-            }
             const id2 = req.params.id;
 
-            const user2 = await User.findOne({
-                attributes: ['firstName', 'lastName', 'dateOfBirth', 'email', 'mobileNumber', 'gender', 'profilePhoto', 'religion'],
-                where: { id: id2 }
-            });
+            const user = await User.findById(id).select('firstName lastName dateOfBirth email mobileNumber gender profilePhoto religion');
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
-            const bio = await Bio.findOne({
-                where: { user_id: id2 }
-            });
-            const addresses = await Addresses.findOne({
-                where: { user_id: id2 }
-            });
-            const interests = await Interests.findOne({
-                where: { user_id: id2 }
-            });
-            const education = await Education.findOne({
-                where: { user_id: id2 }
-            });
-            const suggestions = await User.findAll();
+
+            const user2 = await User.findById(id2).select('firstName lastName dateOfBirth email mobileNumber gender profilePhoto religion');
+            const bio = await Bio.findOne({ user_id: id2 });
+            const addresses = await Addresses.findOne({ user_id: id2 });
+            const interests = await Interests.findOne({ user_id: id2 });
+            const education = await Education.findOne({ user_id: id2 });
+            const suggestions = await User.find();
+
             res.render('match', {
                 suggestions: suggestions || [],
                 user: user || [],
@@ -271,21 +191,16 @@ class guestview {
                 bio: bio || []
             });
         } catch (error) {
-            console.error('Error fetching profile:', error);
-            if (error.name === 'JsonWebTokenError') {
-                return res.status(401).json({ message: 'Invalid token' });
-            } else {
-                return res.status(500).json({ message: 'Internal server error' });
-            }
+            console.error('Error fetching match profile:', error);
+            res.status(error.name === 'JsonWebTokenError' ? 401 : 500).json({ message: 'Internal server error' });
         }
     }
 
-
     static async viewpayment(req, res) {
         try {
-                res.render("payment");
+            res.render("payment");
         } catch (error) {
-            console.error('Error rendering payyment:', error);
+            console.error('Error rendering payment:', error);
             res.status(500).json({ message: 'Internal server error' });
         }
     }

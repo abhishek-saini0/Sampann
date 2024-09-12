@@ -43,18 +43,19 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Ensure database synchronization with error handling
+//Ensure database synchronization with error handling
 // (async function syncDatabase() {
 //   const models = [
 //     { model: Users, name: 'Users' },
 //     { model: Otp, name: 'OTP' },
-//     { model: Interests, name: 'Interests' },
-//     { model: Education, name: 'Education' },
-//     { model: Addresses, name: 'Addresses' },
-//     { model: Bio, name: 'Bio' }
+//     //{ model: Interests, name: 'Interests' },
+//    // { model: Education, name: 'Education' },
+
+//     //{ model: Addresses, name: 'Addresses' },
+//     //{ model: Bio, name: 'Bio' }
 //   ];
 
-//   for (const { model, name } of models) {
+//   for (const { model, name } of models) { 
 //     try {
 //       await model.sync({ force: true });
 //       console.log(`${name} table synchronized successfully`);

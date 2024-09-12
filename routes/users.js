@@ -58,7 +58,8 @@ router.get('/logout', asyncHandler(guestview.logout));
 router.post('/logout', asyncHandler(auth.logout));
 router.get('/match/:id', asyncHandler(guestview.match));
 router.get('/payment', asyncHandler(guestview.viewpayment));
-router.post('/payment', asyncHandler(auth.pyament));
+router.post('/payment', asyncHandler(auth.
+    pyament));
 router.get('/success', asyncHandler(auth.success));
  router.get('/edituser', asyncHandler(userview.viewedituser));
  router.post('/edituser', upload.single('file'), asyncHandler(userview.edituser));
