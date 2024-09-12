@@ -19,13 +19,16 @@ class userview {
 
             // Mongoose query to find user by ID
             const user = await User.findById(id);
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
 
             res.render('edituser', {
                 user: user || {},
             });
         } catch (error) {
             console.error('Error fetching edituser:', error);
-            res.status(error.name === 'JsonWebTokenError' ? 401 : 500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: 'Internal server error', error: error.message });
         }
     }
 
@@ -55,10 +58,14 @@ class userview {
             // Mongoose query to update the user by ID
             const result = await User.findByIdAndUpdate(id, updateData, { new: true });
 
+            if (!result) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
             res.redirect('/profile');
         } catch (error) {
             console.error('Error in edituser:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: 'Internal server error', error: error.message });
         }
     }
 

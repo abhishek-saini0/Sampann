@@ -20,7 +20,7 @@ class guestview {
             res.render("homepage", { decodedToken });
         } catch (error) {
             console.error('Error rendering homepage:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: 'Internal server error', error: error.message });
         }
     }
 
@@ -31,7 +31,7 @@ class guestview {
             res.render("about", { decodedToken });
         } catch (error) {
             console.error('Error rendering about page:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: 'Internal server error', error: error.message });
         }
     }
 
@@ -42,7 +42,7 @@ class guestview {
             res.render("help", { decodedToken });
         } catch (error) {
             console.error('Error rendering help page:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: 'Internal server error', error: error.message });
         }
     }
 
@@ -53,7 +53,7 @@ class guestview {
             res.render('registration', { message: req.flash('error'), decodedToken });
         } catch (error) {
             console.error('Error rendering signup page:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: 'Internal server error', error: error.message });
         }
     }
 
@@ -62,7 +62,7 @@ class guestview {
             res.render('otpreg', { message: req.flash('error') });
         } catch (error) {
             console.error('Error rendering OTP form:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: 'Internal server error', error: error.message });
         }
     }
 
@@ -73,7 +73,7 @@ class guestview {
             res.render("logout", { decodedToken });
         } catch (error) {
             console.error('Error rendering logout page:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: 'Internal server error', error: error.message });
         }
     }
 
@@ -85,7 +85,7 @@ class guestview {
             res.render('login', { message: req.flash('error'), decodedToken, siteKey: SITE_KEY });
         } catch (error) {
             console.error('Error rendering login page:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: 'Internal server error', error: error.message });
         }
     }
 
@@ -121,7 +121,7 @@ class guestview {
             });
         } catch (error) {
             console.error('Error fetching profile:', error);
-            res.status(error.name === 'JsonWebTokenError' ? 401 : 500).json({ message: 'Internal server error' });
+            res.status(error.name === 'JsonWebTokenError' ? 401 : 500).json({ message: 'Internal server error', error: error.message });
         }
     }
 
@@ -153,7 +153,7 @@ class guestview {
             });
         } catch (error) {
             console.error('Error fetching editprofile:', error);
-            res.status(error.name === 'JsonWebTokenError' ? 401 : 500).json({ message: 'Internal server error' });
+            res.status(error.name === 'JsonWebTokenError' ? 401 : 500).json({ message: 'Internal server error', error: error.message });
         }
     }
 
@@ -192,7 +192,7 @@ class guestview {
             });
         } catch (error) {
             console.error('Error fetching match profile:', error);
-            res.status(error.name === 'JsonWebTokenError' ? 401 : 500).json({ message: 'Internal server error' });
+            res.status(error.name === 'JsonWebTokenError' ? 401 : 500).json({ message: 'Internal server error', error: error.message });
         }
     }
 
@@ -201,7 +201,7 @@ class guestview {
             res.render("payment");
         } catch (error) {
             console.error('Error rendering payment:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: 'Internal server error', error: error.message });
         }
     }
 }

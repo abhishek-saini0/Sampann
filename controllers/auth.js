@@ -1,37 +1,9 @@
-const User = require('../models/users');
-const registrationOtp = require('../models/registrationOtp');
-const Bio = require('../models/bio');
-const Education = require('../models/education');
-const Interests = require('../models/interests');
-const Addresses = require('../models/addresses');
-const bcrypt = require('bcrypt');
-const nodemailer = require("nodemailer");
-const otpGenerator = require('otp-generator');
-const jwt = require('jsonwebtoken');
-const config = require('../config/config');
-const express = require('express');
-const flash = require('express-flash');
-const axios = require('axios');
-const app = express();
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-app.use(flash());
-require('dotenv').config();
-
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: "abhishek331saini@gmail.com",
-        pass: process.env.GMAIL_KEY,
-    },
-});
-
 class UserController {
     static async signup(req, res) {
         try {
             const existingUser = await User.findOne({ email: req.body.email });
             if (existingUser) {
-                req.flash('error', 'User already exists, please login or try another email to signup.');
-                return res.redirect('/signup');
+                return res.status(400).json({ message: 'User already exists, please login or try another email to signup.' });
             }
 
             const user = new User({
@@ -46,10 +18,7 @@ class UserController {
                 password: bcrypt.hashSync(req.body.password, 10),
             });
 
-            console.log(req.file ? req.file.path : 'No file uploaded');
-
             const otp = otpGenerator.generate(6, { upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
-            console.log(otp);
 
             const userOtp = new registrationOtp({
                 email: req.body.email,
@@ -60,17 +29,17 @@ class UserController {
             req.session.save();
             await userOtp.save();
 
-            // await transporter.sendMail({
-            //     from: 'abhishek331saini@gmail.com',
-            //     to: req.body.email,
-            //     subject: 'Verification for Sampann Registration',
-            //     html: `Hi ${req.body.firstName} ${req.body.lastName}! Your OTP for verification to register with Sampann is: <b>${otp}</b>. Please don't share it with others.`,
-            // });
+            await transporter.sendMail({
+                from: 'abhishek331saini@gmail.com',
+                to: req.body.email,
+                subject: 'Verification for Sampann Registration',
+                html: `Hi ${req.body.firstName} ${req.body.lastName}! Your OTP for verification to register with Sampann is: <b>${otp}</b>. Please don't share it with others.`,
+            });
 
             res.redirect("/signup/otpvarification");
         } catch (error) {
             console.error('Signup error:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: error.message || 'Internal server error' });
         }
     }
 
@@ -90,12 +59,11 @@ class UserController {
                 req.session.token = token;
                 res.redirect('/profile');
             } else {
-                req.flash('error', 'The entered OTP is incorrect.');
-                res.redirect('/signup/otpvarification');
+                res.status(400).json({ message: 'The entered OTP is incorrect.' });
             }
         } catch (error) {
             console.error('OTP verification error:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: error.message || 'Internal server error' });
         }
     }
 
@@ -103,14 +71,12 @@ class UserController {
         try {
             const user = await User.findOne({ email: req.body.email });
             if (!user) {
-                req.flash('error', 'User does not exist. Try another account or register.');
-                return res.redirect('/login');
+                return res.status(400).json({ message: 'User does not exist. Try another account or register.' });
             }
 
             const captcha = req.body['g-recaptcha-response'];
             if (!captcha) {
-                req.flash('error', 'Please complete the CAPTCHA.');
-                return res.redirect('/login');
+                return res.status(400).json({ message: 'Please complete the CAPTCHA.' });
             }
 
             const secret_key = process.env.CAPTCHA_SECRET_KEY;
@@ -119,8 +85,7 @@ class UserController {
             });
 
             if (!captchaResponse.data.success) {
-                req.flash('error', 'CAPTCHA verification failed. Please try again.');
-                return res.redirect('/login');
+                return res.status(400).json({ message: 'CAPTCHA verification failed. Please try again.' });
             }
 
             const isValidate = await bcrypt.compare(req.body.password, user.password);
@@ -130,12 +95,11 @@ class UserController {
                 req.session.token = token;
                 res.redirect('/profile');
             } else {
-                req.flash('error', 'Incorrect password');
-                return res.redirect('/login');
+                res.status(400).json({ message: 'Incorrect password' });
             }
         } catch (error) {
             console.error('Login error:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: error.message || 'Internal server error' });
         }
     }
 
@@ -206,7 +170,7 @@ class UserController {
             res.redirect('/profile');
         } catch (error) {
             console.error('Error in edit:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: error.message || 'Internal server error' });
         }
     }
 
@@ -239,7 +203,7 @@ class UserController {
             res.redirect(session.url);
         } catch (error) {
             console.error('Error creating checkout session:', error);
-            res.status(500).send('Internal Server Error');
+            res.status(500).json({ message: error.message || 'Internal server error' });
         }
     }
 
@@ -255,7 +219,7 @@ class UserController {
             res.render('paymentsuccess', { user });
         } catch (error) {
             console.error('Error in payment success:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: error.message || 'Internal server error' });
         }
     }
 
