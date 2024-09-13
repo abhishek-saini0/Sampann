@@ -13,14 +13,14 @@ const express = require('express');
 const flash = require('express-flash');
 const axios = require('axios');
 const app = express();
-const stripe = require('stripe')('sk_test_51PrC84Rpo9MfeTbXLz2sYNuH8zt1KM7SVE9UyPYTKBEoAnyT3MTukKyoQ6VCHMveykkWfWqvJYuMgqlCXbl0B3Uz00VXewiOGl');
+const stripe = require('stripe')('process.env.MONGODB_URI');
 app.use(flash());
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: "abhishek331saini@gmail.com",
-        pass: "xyxc stdv zkvz pphy",
+        pass: "process.env.GMAIL_KEY",
     },
 });
 class UserController {
@@ -28,7 +28,8 @@ class UserController {
         try {
             const existingUser = await User.findOne({ email: req.body.email });
             if (existingUser) {
-                return res.status(400).json({ message: 'User already exists, please login or try another email to signup.' });
+                req.flash('error', 'user already exist pelese login or try another email to signup');
+                return res.redirect('/signup');
             }
 
             const user = new User({
@@ -84,7 +85,8 @@ class UserController {
                 req.session.token = token;
                 res.redirect('/profile');
             } else {
-                res.status(400).json({ message: 'The entered OTP is incorrect.' });
+                req.flash('error', 'The entered OTP is incorrect.');
+                return res.redirect('/signup/otpvarification');
             }
         } catch (error) {
             console.error('OTP verification error:', error);
@@ -96,12 +98,14 @@ class UserController {
         try {
             const user = await User.findOne({ email: req.body.email });
             if (!user) {
-                return res.status(400).json({ message: 'User does not exist. Try another account or register.' });
-            }
+                req.flash('error', 'User does not exist. Try another account or register.');
+                return res.redirect('/login');
+              }
 
             const captcha = req.body['g-recaptcha-response'];
             if (!captcha) {
-                return res.status(400).json({ message: 'Please complete the CAPTCHA.' });
+                req.flash('error', 'Please complete the CAPTCHA.');
+                return res.redirect('/login');
             }
 
             const secret_key = process.env.CAPTCHA_SECRET_KEY;
@@ -110,7 +114,8 @@ class UserController {
             });
 
             if (!captchaResponse.data.success) {
-                return res.status(400).json({ message: 'CAPTCHA verification failed. Please try again.' });
+                req.flash('error', 'CAPTCHA verification failed. Please try again.');
+                return res.redirect('/login');
              }
 
             const isValidate = await bcrypt.compare(req.body.password, user.password);
@@ -120,7 +125,8 @@ class UserController {
                 req.session.token = token;
                 res.redirect('/profile');
             } else {
-                res.status(400).json({ message: 'Incorrect password' });
+                req.flash('error', 'Incorrect password');
+                return res.redirect('/login');
             }
         } catch (error) {
             console.error('Login error:', error);
