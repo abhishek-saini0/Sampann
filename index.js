@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const mongoURI = process.env.MONGODB_URI;
+// const mongoURI = "mongodb+srv://abhishek331saini:8AfXVI3SStYHX77t@sampann.gbm9a.mongodb.net/?retryWrites=true&w=majority&appName=Sampann";
 
 mongoose.connect(mongoURI)
     .then(() => console.log('MongoDB connected successfully'))

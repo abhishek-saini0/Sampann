@@ -1,3 +1,28 @@
+const User = require('../models/users');
+const registrationOtp = require('../models/registrationOtp');
+const Bio = require('../models/bio');
+const Education = require('../models/education');
+const Interests = require('../models/interests');
+const Addresses = require('../models/addresses');
+const bcrypt = require('bcrypt');
+const nodemailer = require("nodemailer");
+const otpGenerator = require('otp-generator');
+const jwt = require('jsonwebtoken');
+const config = require('../config/config');
+const express = require('express');
+const flash = require('express-flash');
+const axios = require('axios');
+const app = express();
+const stripe = require('stripe')('sk_test_51PrC84Rpo9MfeTbXLz2sYNuH8zt1KM7SVE9UyPYTKBEoAnyT3MTukKyoQ6VCHMveykkWfWqvJYuMgqlCXbl0B3Uz00VXewiOGl');
+app.use(flash());
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: "abhishek331saini@gmail.com",
+        pass: "xyxc stdv zkvz pphy",
+    },
+});
 class UserController {
     static async signup(req, res) {
         try {
@@ -86,7 +111,7 @@ class UserController {
 
             if (!captchaResponse.data.success) {
                 return res.status(400).json({ message: 'CAPTCHA verification failed. Please try again.' });
-            }
+             }
 
             const isValidate = await bcrypt.compare(req.body.password, user.password);
             if (isValidate) {
