@@ -25,7 +25,7 @@ const asyncHandler = fn => (req, res, next) => {
 };
 
 // Public routes
-router.get("/sampann", asyncHandler(guestview.homepage));
+router.get("/", asyncHandler(guestview.homepage));
 router.get("/about", asyncHandler(guestview.about));
 router.get("/help", asyncHandler(guestview.help));
 router.get("/signup", asyncHandler(guestview.showSignup));

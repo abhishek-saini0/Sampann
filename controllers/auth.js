@@ -211,7 +211,7 @@ class UserController {
                 console.error('Error destroying session:', err);
                 return res.status(500).json({ message: 'Error logging out' });
             }
-            res.redirect('/sampann');
+            res.redirect('/');
         });
     }
 
