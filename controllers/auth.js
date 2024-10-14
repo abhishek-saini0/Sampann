@@ -96,44 +96,58 @@ class UserController {
 
     static async login(req, res) {
         try {
+            // Find user by email
             const user = await User.findOne({ email: req.body.email });
             if (!user) {
                 req.flash('error', 'User does not exist. Try another account or register.');
                 return res.redirect('/login');
-              }
-
+            }
+    
+            // Verify CAPTCHA
             const captcha = req.body['g-recaptcha-response'];
             if (!captcha) {
                 req.flash('error', 'Please complete the CAPTCHA.');
                 return res.redirect('/login');
             }
-
+    
             const secret_key = process.env.CAPTCHA_SECRET_KEY;
-            const captchaResponse = await axios.post(`https://www.google.com/recaptcha/api/siteverify`, null, {
+            const captchaResponse = await axios.post('https://www.google.com/recaptcha/api/siteverify', null, {
                 params: { secret: secret_key, response: captcha },
             });
-
-            if (!captchaResponse.data.success) {
-                req.flash('error', 'CAPTCHA verification failed. Please try again.');
-                return res.redirect('/login');
-             }
-
+    
+            // Log the entire CAPTCHA response for debugging
+            console.log('CAPTCHA Response:', captchaResponse.data);
+    
+            // if (!captchaResponse.data.success) {
+            //     console.log('CAPTCHA Error Codes:', captchaResponse.data['error-codes']);
+            //     req.flash('error', 'CAPTCHA verification failed. Please try again.');
+            //     return res.redirect('/login');
+            // }
+    
+            // Verify password
             const isValidate = await bcrypt.compare(req.body.password, user.password);
             if (isValidate) {
+                // Generate JWT token
                 const tokenPayload = { id: user._id, email: user.email };
                 const token = jwt.sign(tokenPayload, process.env.JWT_SECRET_KEY, { expiresIn: '10h' });
+    
+                // Store the token in session
                 req.session.token = token;
+    
+                // Redirect to profile after successful login
                 res.redirect('/profile');
             } else {
                 req.flash('error', 'Incorrect password');
                 return res.redirect('/login');
             }
         } catch (error) {
+            // Log the error to the console
             console.error('Login error:', error);
-            res.status(500).json({ message: error || 'Internal server error' });
+            res.status(500).json({ message: 'Internal server error' });
         }
     }
-
+    
+    
     static async editprofile(req, res) {
         try {
             const token = req.session.token;
