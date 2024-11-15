@@ -118,11 +118,11 @@ class UserController {
             // Log the entire CAPTCHA response for debugging
             console.log('CAPTCHA Response:', captchaResponse.data);
     
-            if (!captchaResponse.data.success) {
-                console.log('CAPTCHA Error Codes:', captchaResponse.data['error-codes']);
-                req.flash('error', 'CAPTCHA verification failed. Please try again.');
-                return res.redirect('/login');
-            }
+            // if (!captchaResponse.data.success) {
+            //     console.log('CAPTCHA Error Codes:', captchaResponse.data['error-codes']);
+            //     req.flash('error', 'CAPTCHA verification failed. Please try again.');
+            //     return res.redirect('/login');
+            // }
     
             // Verify password
             const isValidate = await bcrypt.compare(req.body.password, user.password);
